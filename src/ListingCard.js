@@ -1,11 +1,27 @@
-
+import {Card} from "react-bootstrap"
 /**
  * TODO:
  */
-function ListingCard() {
+function ListingCard({ listing }) {
 
     return (
-        <h2>ListingCard</h2>
+        <>
+          <Card>
+            <Card.Img variant="left" src={listing.photo}/>
+            <Card.Body>
+                <Card.Title>
+                    {listing.name}
+                </Card.Title>
+                <Card.Text>
+                    {listing.price}
+                    {listing.location}
+                </Card.Text>
+                <Card.Text>
+                    {listing.description}
+                </Card.Text>
+            </Card.Body>
+          </Card>
+        </>
     )
 }
 

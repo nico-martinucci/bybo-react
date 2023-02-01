@@ -4,9 +4,9 @@ import Nav from './Nav';
 import userContext from "./userContext";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import Loader from './Loader';
+import {Spinner} from 'react-bootstrap';
 import ByboApi from './api';
-import decode from "jwt-decode";
+import jwt_decode from "jwt-decode";
 
 /** Renders application */
 
@@ -38,11 +38,13 @@ function App() {
   /** Fetches user information */
 
   async function fetchUserDataFromAPI() {
-    const payload = decode(token);
+    const payload = jwt_decode(token);
     const { id } = payload;
 
+    console.log("payload", payload);
+
     ByboApi.token = token;
-    const currentUser = await ByboApi.getCurrentUser(id);
+    const currentUser = await ByboApi.getUserDetail(id);
     setUser({
       data: currentUser,
       isLoading: false
@@ -89,7 +91,7 @@ function App() {
     setToken(token);
   }
 
-  if (user.isLoading) return <Loader />;
+  if (user.isLoading) return <Spinner />;
 
 
   return (

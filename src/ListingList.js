@@ -1,13 +1,24 @@
 import ListingCard from "./ListingCard"
 
 /**
- * TODO:
+ * List of listings
+ *
+ * Prop:
+ * -listings- [{id, name, description, location, photo, price}, ...]
+ *
+ * ListingList => Listing Card
  */
-function ListingList() {
-
+function ListingList({ listings }) {
     return (
-        <h2>ListingList</h2>
-    )
+       <>
+        {listings.map(l => (
+            <ListingCard
+              key={l.id}
+              listing={l}
+            />
+        ))}
+       </>
+    );
 }
 
 
