@@ -1,6 +1,8 @@
 import './App.css';
+import RoutesList from "./RoutesList"
+import Nav from './Nav';
 import userContext from "./userContext";
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Loader from './Loader';
 import ByboApi from './api';
@@ -37,10 +39,10 @@ function App() {
 
   async function fetchUserDataFromAPI() {
     const payload = decode(token);
-    const { username } = payload;
+    const { id } = payload;
 
     ByboApi.token = token;
-    const currentUser = await ByboApi.getCurrentUser(username);
+    const currentUser = await ByboApi.getCurrentUser(id);
     setUser({
       data: currentUser,
       isLoading: false
@@ -90,7 +92,19 @@ function App() {
   if (user.isLoading) return <Loader />;
 
 
-  return
+  return (
+    <userContext.Provider value={{ username: user.data?.username, id: user.data?.id }}>
+      <BrowserRouter>
+        <Nav handleLogout={handleLogout} />
+        <RoutesList
+          userListings={user.data?.listings}
+          userBookings={user.data?.bookings}
+          handleLogin={handleLogin}
+          handleRegister={handleRegister}
+        />
+      </BrowserRouter>
+    </userContext.Provider>
+  )
 
 
 
