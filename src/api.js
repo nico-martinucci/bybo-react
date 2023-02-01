@@ -16,11 +16,14 @@ class ByboApi {
   // DON'T MODIFY THIS TOKEN
   static token;
 
-  static async request(endpoint, data = {}, method = "get") {
+  static async request(endpoint, data = {}, method = "get", addlHeaders = {}) {
     console.debug("API Call:", endpoint, data, method);
 
     const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${ByboApi.token}` };
+    const headers = {
+      ...addlHeaders,
+      Authorization: `Bearer ${ByboApi.token}`
+    };
     const params = (method === "get")
       ? data
       : {};
@@ -37,13 +40,29 @@ class ByboApi {
   // Individual API routes
 
   //TODO: add delete booking, get to_user messages, get from_user messages,
-          // send new message
+  // send new message
 
 
   /** Adds a new listing */
 
   static async addNewListing(data) {
-    const res = await this.request("api/listings", data, "post");
+    // TODO: remove hard-coded token once we have auth figured out
+    const dataWithToken = {
+      ...data,
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6MX0.Fhrge2N7Qg1UGKzH7ShmvnxI1BXfkU5CwTsj9lLxRQQ"
+    };
+
+    console.log("dataWithToken in api helper: ", dataWithToken)
+
+    const res = await this.request(
+      "api/listings",
+      dataWithToken,
+      "post",
+      { "Content-Type": "multipart/form-data" }
+    );
+
+    console.log("response from api: ", res)
+
     return res.listing;
   }
 
