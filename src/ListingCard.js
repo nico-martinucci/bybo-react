@@ -1,8 +1,12 @@
 import { Card } from "react-bootstrap"
+import { Link } from "react-router-dom"
+
 /**
  * TODO:
  */
 function ListingCard({ listing }) {
+
+    const linkStyle = { color: "inherit" };
 
     return (
         <>
@@ -10,7 +14,7 @@ function ListingCard({ listing }) {
                 <Card.Img width="150px" variant="left" src={listing.photo} />
                 <Card.Body>
                     <Card.Title>
-                        {listing.name}
+                        <Link style={linkStyle} to={`/listings/${listing.id}`}>{listing.name}</Link>
                     </Card.Title>
                     <Card.Text>
                         {listing.price}

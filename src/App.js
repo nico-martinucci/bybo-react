@@ -1,10 +1,10 @@
 import './App.css';
 import RoutesList from "./RoutesList"
-import Nav from './Nav';
+import NavBar from './NavBar';
 import userContext from "./userContext";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import {Spinner} from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import ByboApi from './api';
 import jwt_decode from "jwt-decode";
 
@@ -93,11 +93,13 @@ function App() {
 
   if (user.isLoading) return <Spinner />;
 
+  console.log("value of user in App: ", user)
+  console.log("user obj passed to context: ", { username: user.data?.username, id: user.data?.id })
 
   return (
     <userContext.Provider value={{ username: user.data?.username, id: user.data?.id }}>
       <BrowserRouter>
-        <Nav handleLogout={handleLogout} />
+        <NavBar handleLogout={handleLogout} />
         <RoutesList
           userListings={user.data?.listings}
           userBookings={user.data?.bookings}
