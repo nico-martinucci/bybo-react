@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router-dom";
 import ByboApi from "./api";
 import { Spinner, Card, Button } from "react-bootstrap";
+import userContext from "./userContext";
 
 /**
  * TODO:
@@ -21,11 +22,13 @@ function ListingDetail() {
         { code: 6, name: "Saturday", status: "available" },
     ])
 
-    const sampleBookings = [0, 2, 3]
+    // const sampleBookings = [0, 2, 3]
 
-    console.log(bookings);
+    console.log("listing", listing);
 
     const { listingId } = useParams();
+
+    const { id } = useContext(userContext);
 
     useEffect(function fetchAndSetListing() {
         async function fetchListing() {
@@ -34,9 +37,16 @@ function ListingDetail() {
                 isLoading: false,
                 data: resp
             }))
+        }
+        fetchListing();
+    }, []);
+
+    useEffect(function fetchAndSetBooking() {
+        async function fetchBooking() {
             // TODO: update this from sampleBookigns to actual listing state data
             setBookings(curr => curr.map(b => {
-                if (sampleBookings.includes(b.code)) {
+                console.log("listing in fetch booking", listing);
+                if (listing.data.bookings.includes(b.code)) {
                     return {
                         ...b,
                         status: "booked"
@@ -45,12 +55,16 @@ function ListingDetail() {
                 return b;
             }))
         }
-        fetchListing();
-    }, []);
+
+        if (listing.isLoading === false) {
+        fetchBooking();
+        }
+    }, [listing])
 
     /** Handles clicking a day button, updating it's state to be selected */
     function handleDayButtonClick(evt) {
         console.log(evt.target.id);
+
         setBookings(curr => curr.map(b => {
             if (b.code === +evt.target.id) {
                 return {
@@ -63,8 +77,26 @@ function ListingDetail() {
     }
 
     /** Handles clicking the book it button, add new bookings. */
-    function addNewBooking(evt) {
+    async function addNewBooking(evt) {
 
+        const days = bookings.filter(b => {
+            return b.status === "clicked"
+        }).map(b => {
+            return b.code
+        })
+
+        /** returns an array of days */
+        const updatedBookings = await ByboApi.createNewBooking(listingId, {user_id: id, days})
+
+        setBookings(curr => curr.map(b => {
+            if (updatedBookings.includes(b.code)) {
+                return {
+                    ...b,
+                    status: "booked"
+                };
+            }
+            return b;
+        }))
     }
 
     if (listing.isLoading) return <Spinner />;
@@ -117,7 +149,11 @@ function ListingDetail() {
                 </div>
             ))}
             <div>
-                <Button variant="info">Book it!</Button>
+                <Button
+                    onClick={addNewBooking}
+                    variant="info">
+                        Book'em Dano!
+                </Button>
             </div>
         </Card>
     )

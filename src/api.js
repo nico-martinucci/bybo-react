@@ -80,7 +80,7 @@ class ByboApi {
       data,
       "post"
     );
-    return res.listing;
+    return res.booked;
   }
 
 
