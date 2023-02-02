@@ -46,19 +46,19 @@ function Listings() {
 
     /** Adds a new listing to the current state */
     async function addNewListing(data) {
-        console.log("data at top of addNewListing: ", data)
         const newListing = await ByboApi.addNewListing(data);
         console.log("newListing response from api: ", newListing)
-        setListings(curr => (
-            [{
+        setListings(curr => ({
+            isLoading: false,
+            data: [{
                 id: newListing.id,
                 name: newListing.name,
                 description: newListing.description,
                 location: newListing.location,
                 photo: newListing.photo,
                 price: newListing.price
-            }, ...curr]
-        ))
+            }, ...curr.data]
+        }))
     }
 
 

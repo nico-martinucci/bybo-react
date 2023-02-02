@@ -9,8 +9,7 @@ const inititalFormData = {
     price: "100",
     hasBarbecue: false,
     hasPool: false,
-    isFenced: false,
-    photo: ""
+    isFenced: false
 }
 
 /**
@@ -18,7 +17,7 @@ const inititalFormData = {
  */
 function AddListingForm({ toggleIsAdding, addNewListing }) {
     const [formData, setFormData] = useState(inititalFormData);
-    const form = useRef(null);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     /** Update form input. */
     function handleChange(evt) {
@@ -30,16 +29,34 @@ function AddListingForm({ toggleIsAdding, addNewListing }) {
     }
 
     function handleSubmit(evt) {
+        console.log("formData state at top of handleSubmit: ", formData)
         evt.preventDefault();
         toggleIsAdding();
-        const data = new FormData(form.current);
-        console.log("form from add listing form", form);
-        console.log("form.current from add listing form", form.current);
+        const data = new FormData();
+        // for (let input in formData) {
+        //     data.append(input, data[input]);
+        // }
+        data.append("name", formData.name);
+        data.append("description", formData.description);
+        data.append("location", formData.location);
+        data.append("size", formData.size);
+        data.append("price", formData.price);
+        data.append("hasBarbecue", formData.hasBarbecue);
+        data.append("hasPool", formData.hasPool);
+        data.append("isFenced", formData.isFenced);
+        data.append("photo", selectedFile)
+        data.append("userId", 1)
+        console.log("data instance in handleSubmit in AddListingForm: ", data);
+
         addNewListing(data);
     }
 
+    function handleFileSelect(evt) {
+        setSelectedFile(evt.target.files[0]);
+    }
+
     return (
-        <Form onSubmit={handleSubmit} ref={form}>
+        <Form onSubmit={handleSubmit}>
             <Form.Label>Name</Form.Label>
             <Form.Control
                 name="name"
@@ -104,8 +121,7 @@ function AddListingForm({ toggleIsAdding, addNewListing }) {
             <Form.Control
                 name="photo"
                 type="file"
-                value={formData.photo}
-                onChange={handleChange} />
+                onChange={handleFileSelect} />
             <Button variant="primary" type="submit">
                 Submit
             </Button>

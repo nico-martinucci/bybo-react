@@ -24,8 +24,8 @@ class ByboApi {
       Authorization: `Bearer ${ByboApi.token}`
     };
     const params = (method === "get")
-    ? data
-    : {};
+      ? data
+      : {};
 
     console.debug("API Call:", endpoint, data, method, headers);
     try {
@@ -46,14 +46,6 @@ class ByboApi {
   /** Adds a new listing */
 
   static async addNewListing(data) {
-    // TODO: remove hard-coded token once we have auth figured out
-    // const dataWithToken = {
-    //   ...data,
-    //   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6MX0.Fhrge2N7Qg1UGKzH7ShmvnxI1BXfkU5CwTsj9lLxRQQ"
-    // };
-
-    console.log("dataWithToken in api helper: ", data)
-
     const res = await this.request(
       "api/listings",
       data,
