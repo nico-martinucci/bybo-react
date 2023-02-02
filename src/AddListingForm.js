@@ -1,12 +1,12 @@
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Form, Button } from "react-bootstrap"
 
 const inititalFormData = {
-    name: "",
-    description: "",
-    location: "",
-    size: "",
-    price: "",
+    name: "Backyard",
+    description: "it's great!",
+    location: "anywhere",
+    size: "medium",
+    price: "100",
     hasBarbecue: false,
     hasPool: false,
     isFenced: false,
@@ -17,7 +17,8 @@ const inititalFormData = {
  * TODO:
  */
 function AddListingForm({ toggleIsAdding, addNewListing }) {
-    const [formData, setFormData] = useState(inititalFormData)
+    const [formData, setFormData] = useState(inititalFormData);
+    const form = useRef(null);
 
     /** Update form input. */
     function handleChange(evt) {
@@ -31,11 +32,14 @@ function AddListingForm({ toggleIsAdding, addNewListing }) {
     function handleSubmit(evt) {
         evt.preventDefault();
         toggleIsAdding();
-        addNewListing(formData);
+        const data = new FormData(form.current);
+        console.log("form from add listing form", form);
+        console.log("form.current from add listing form", form.current);
+        addNewListing(data);
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={handleSubmit} ref={form}>
             <Form.Label>Name</Form.Label>
             <Form.Control
                 name="name"

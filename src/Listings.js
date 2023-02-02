@@ -1,7 +1,7 @@
 import AddListingForm from "./AddListingForm"
 import ListingSearch from "./ListingSearch"
 import ListingList from "./ListingList"
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ByboApi from "./api";
 import { Spinner, Button } from "react-bootstrap";
 
@@ -21,6 +21,7 @@ function Listings() {
         data: null
     });
     const [isAdding, setIsAdding] = useState(false);
+
 
     console.log("listings:", listings)
 

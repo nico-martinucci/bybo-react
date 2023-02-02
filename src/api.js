@@ -17,7 +17,6 @@ class ByboApi {
   static token;
 
   static async request(endpoint, data = {}, method = "get", addlHeaders = {}) {
-    console.debug("API Call:", endpoint, data, method);
 
     const url = `${BASE_URL}/${endpoint}`;
     const headers = {
@@ -25,9 +24,10 @@ class ByboApi {
       Authorization: `Bearer ${ByboApi.token}`
     };
     const params = (method === "get")
-      ? data
-      : {};
+    ? data
+    : {};
 
+    console.debug("API Call:", endpoint, data, method, headers);
     try {
       return (await axios({ url, method, data, params, headers })).data;
     } catch (err) {
@@ -47,16 +47,16 @@ class ByboApi {
 
   static async addNewListing(data) {
     // TODO: remove hard-coded token once we have auth figured out
-    const dataWithToken = {
-      ...data,
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6MX0.Fhrge2N7Qg1UGKzH7ShmvnxI1BXfkU5CwTsj9lLxRQQ"
-    };
+    // const dataWithToken = {
+    //   ...data,
+    //   token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3QiLCJpZCI6MX0.Fhrge2N7Qg1UGKzH7ShmvnxI1BXfkU5CwTsj9lLxRQQ"
+    // };
 
-    console.log("dataWithToken in api helper: ", dataWithToken)
+    console.log("dataWithToken in api helper: ", data)
 
     const res = await this.request(
       "api/listings",
-      dataWithToken,
+      data,
       "post",
       { "Content-Type": "multipart/form-data" }
     );
