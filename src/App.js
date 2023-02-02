@@ -91,6 +91,17 @@ function App() {
     setToken(token);
   }
 
+  /** Adds listing to user's listing */
+  function addUserListing(listing) {
+    setUser(curr => ({
+      ...curr,
+      data: {
+        ...curr.data,
+        listings:[...curr.data.listings, listing]
+      }
+    }));
+  }
+
   if (user.isLoading) return <Spinner />;
 
   console.log("value of user in App: ", user)
@@ -101,8 +112,8 @@ function App() {
       <BrowserRouter>
         <NavBar handleLogout={handleLogout} />
         <RoutesList
-          userListings={user.data?.listings}
-          userBookings={user.data?.bookings}
+          addUserListing={addUserListing}
+          user={user.data}
           handleLogin={handleLogin}
           handleRegister={handleRegister}
         />

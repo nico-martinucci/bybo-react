@@ -1,5 +1,7 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useContext } from "react"
 import { Form, Button } from "react-bootstrap"
+import userContext from "./userContext";
+
 
 const inititalFormData = {
     name: "Backyard",
@@ -18,6 +20,8 @@ const inititalFormData = {
 function AddListingForm({ toggleIsAdding, addNewListing }) {
     const [formData, setFormData] = useState(inititalFormData);
     const [selectedFile, setSelectedFile] = useState(null);
+
+    const { id } = useContext(userContext);
 
     /** Update form input. */
     function handleChange(evt) {
@@ -45,7 +49,7 @@ function AddListingForm({ toggleIsAdding, addNewListing }) {
         data.append("hasPool", formData.hasPool);
         data.append("isFenced", formData.isFenced);
         data.append("photo", selectedFile)
-        data.append("userId", 1)
+        data.append("userId", id)
         console.log("data instance in handleSubmit in AddListingForm: ", data);
 
         addNewListing(data);

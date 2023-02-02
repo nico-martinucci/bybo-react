@@ -9,13 +9,16 @@ import { Spinner, Button } from "react-bootstrap";
 /**
  * Shows all listings
  *
+ * Prop:
+ * -addUserListing
+ *
  * State:
  * -listings
  * [{id, name, description, location, photo, price}, ...]
  *
  * RouteList => Listings
  */
-function Listings() {
+function Listings( { addUserListing }) {
     const [listings, setListings] = useState({
         isLoading: true,
         data: null
@@ -59,6 +62,14 @@ function Listings() {
                 price: newListing.price
             }, ...curr.data]
         }))
+        addUserListing({
+            description: newListing.description,
+            location: newListing.location,
+            id: newListing.id,
+            name: newListing.name,
+            price: newListing.price,
+            photo: newListing.photo
+        })
     }
 
 
