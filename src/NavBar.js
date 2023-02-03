@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { useContext } from 'react';
 import userContext from './userContext';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 
 /**
  * TODO:
@@ -14,11 +14,16 @@ function NavBar({ handleLogout }) {
     const { username, id } = useContext(userContext);
     console.log("value of user at top of NavBar: ", username);
 
+    function handleLogoutClick() {
+        handleLogout();
+        return <Navigate to="/" />
+    }
+
     // TODO: update this to messages page once implemented
     return (
         <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand href="#home">BYBO</Navbar.Brand>
+                <Navbar.Brand>BYBO</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
@@ -30,7 +35,7 @@ function NavBar({ handleLogout }) {
                             <NavDropdown.Item as={Link} to={`/users/${id}`}>Profile</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to={"/"}>Messages</NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={handleLogout}>
+                            <NavDropdown.Item onClick={handleLogoutClick}>
                                 Logout
                             </NavDropdown.Item>
                         </NavDropdown>}
