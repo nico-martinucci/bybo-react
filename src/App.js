@@ -97,9 +97,14 @@ function App() {
       ...curr,
       data: {
         ...curr.data,
-        listings:[...curr.data.listings, listing]
+        listings: [...curr.data.listings, listing]
       }
     }));
+  }
+
+  /** Adds a new booking to the current user's list */
+  function addUserBooking() {
+
   }
 
   if (user.isLoading) return <Spinner />;

@@ -1,5 +1,6 @@
 import { Card } from "react-bootstrap"
 import { Link } from "react-router-dom"
+import Listings from "./Listings";
 
 /**
  * TODO:
@@ -7,6 +8,16 @@ import { Link } from "react-router-dom"
 function ListingCard({ listing }) {
 
     const linkStyle = { color: "inherit" };
+
+    const dayLookup = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+    ]
 
     return (
         <>
@@ -23,6 +34,11 @@ function ListingCard({ listing }) {
                     <Card.Text>
                         {listing.description}
                     </Card.Text>
+                    {listing.days &&
+                        <Card.Text>
+                            Booked: {listing.days.map(d => <span key={d}>{dayLookup[d]} </span>)}
+                        </Card.Text>
+                    }
                 </Card.Body>
             </Card>
         </>
