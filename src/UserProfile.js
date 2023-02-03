@@ -36,7 +36,9 @@ function UserProfile({ user }) {
             <Card.Title>{`${user.username}'s Profile`}</Card.Title>
             <Card.Text>{user.first_name} {user.last_name}</Card.Text>
             <Card.Text>{user.bio} </Card.Text>
+            <h3>{`${user.username}'s Listings`}</h3>
             <ListingList listings={user.listings} />
+            <h3>{`${user.username}'s Bookings`}</h3>
             <ListingList listings={uniqueBookings} />
         </Card>
 

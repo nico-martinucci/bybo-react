@@ -9,7 +9,7 @@ import { Routes, Route } from "react-router-dom"
 /**
  * TODO:
  */
-function RoutesList({ handleLogin, handleRegister, user, addUserListing }) {
+function RoutesList({ handleLogin, handleRegister, user, addUserListing, addUserBooking }) {
 
     return (
         <Routes>
@@ -20,7 +20,9 @@ function RoutesList({ handleLogin, handleRegister, user, addUserListing }) {
             <Route path="/users/:userId" element={
                 <UserProfile user={user}/>
             } />
-            <Route path="/listings/:listingId" element={<ListingDetail />} />
+            <Route path="/listings/:listingId" element={
+                <ListingDetail addUserBooking={addUserBooking}/>
+            } />
             <Route path="/login" element={<LoginForm handleLogin={handleLogin} />} />
             <Route path="/signup" element={<SignupForm handleRegister={handleRegister} />} />
         </Routes>

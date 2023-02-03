@@ -103,8 +103,14 @@ function App() {
   }
 
   /** Adds a new booking to the current user's list */
-  function addUserBooking() {
-
+  function addUserBooking(bookings) {
+    setUser(curr => ({
+      ...curr,
+      data: {
+        ...curr.data,
+        bookings: [...curr.data.bookings, ...bookings]
+      }
+    }));
   }
 
   if (user.isLoading) return <Spinner />;
@@ -117,6 +123,7 @@ function App() {
       <BrowserRouter>
         <NavBar handleLogout={handleLogout} />
         <RoutesList
+          addUserBooking={addUserBooking}
           addUserListing={addUserListing}
           user={user.data}
           handleLogin={handleLogin}
