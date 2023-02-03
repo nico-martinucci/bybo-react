@@ -4,12 +4,16 @@ import UserProfile from "./UserProfile"
 import ListingDetail from "./ListingDetail"
 import LoginForm from "./LoginForm"
 import SignupForm from "./SignupForm"
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
+import userContext from "./userContext";
+import { useContext } from "react"
 
 /**
  * TODO:
  */
 function RoutesList({ handleLogin, handleRegister, user, addUserListing, addUserBooking }) {
+
+    const { username } = useContext(userContext);
 
     return (
         <Routes>
@@ -23,8 +27,17 @@ function RoutesList({ handleLogin, handleRegister, user, addUserListing, addUser
             <Route path="/listings/:listingId" element={
                 <ListingDetail addUserBooking={addUserBooking}/>
             } />
-            <Route path="/login" element={<LoginForm handleLogin={handleLogin} />} />
-            <Route path="/signup" element={<SignupForm handleRegister={handleRegister} />} />
+            {!username &&
+            <>
+                <Route path="/login" element={
+                    <LoginForm handleLogin={handleLogin} />
+                } />
+                <Route path="/signup" element={
+                    <SignupForm handleRegister={handleRegister} />
+                } />
+            </>
+            }
+            <Route path="*" element={<Navigate to="/" />}/>
         </Routes>
     )
 }

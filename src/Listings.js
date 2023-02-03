@@ -1,9 +1,10 @@
 import AddListingForm from "./AddListingForm"
 import ListingSearch from "./ListingSearch"
 import ListingList from "./ListingList"
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useContext } from "react";
 import ByboApi from "./api";
 import { Spinner, Button } from "react-bootstrap";
+import userContext from "./userContext";
 
 
 /**
@@ -24,6 +25,8 @@ function Listings( { addUserListing }) {
         data: null
     });
     const [isAdding, setIsAdding] = useState(false);
+
+    const { username } = useContext(userContext);
 
 
     console.log("listings:", listings)
@@ -79,9 +82,13 @@ function Listings( { addUserListing }) {
     return (
         <div>
             {!isAdding && <div>
-                <Button onClick={toggleIsAdding} variant="primary" type="submit">
-                    Add new listing
-                </Button>
+                {username &&
+                    <>
+                        <Button onClick={toggleIsAdding} variant="primary" type="submit">
+                            Add new listing
+                        </Button>
+                    </>
+                }
                 <ListingSearch />
                 <ListingList listings={listings.data} />
             </div>}

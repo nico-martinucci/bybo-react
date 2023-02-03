@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import ByboApi from "./api";
 import { Spinner, Card, Button, Stack } from "react-bootstrap";
@@ -11,7 +11,9 @@ function ListingDetail({ addUserBooking }) {
     const [listing, setListing] = useState({
         data: null,
         isLoading: true
-    })
+    });
+
+    // bookings state with status (options: available, clicked, booked)
     const [bookings, setBookings] = useState([
         { code: 0, name: "Sunday", status: "available" },
         { code: 1, name: "Monday", status: "available" },
@@ -20,32 +22,31 @@ function ListingDetail({ addUserBooking }) {
         { code: 4, name: "Thursday", status: "available" },
         { code: 5, name: "Friday", status: "available" },
         { code: 6, name: "Saturday", status: "available" },
-    ])
-
-    // const sampleBookings = [0, 2, 3]
-
-    console.log("listing", listing);
+    ]);
 
     const { listingId } = useParams();
 
-    const { id } = useContext(userContext);
+    const { id, username } = useContext(userContext);
 
+    //calling getListing detail helper function which will return listing detail
+    //and use to set listing state data; listing detail includes list of current
+    //bookings
     useEffect(function fetchAndSetListing() {
         async function fetchListing() {
             const resp = await ByboApi.getListingDetail(listingId);
             setListing(({
                 isLoading: false,
                 data: resp
-            }))
+            }));
         }
         fetchListing();
     }, []);
 
+    //once we have a listing, updates state if day of week is already booked,
+    //update status to booked
     useEffect(function fetchAndSetBooking() {
-        async function fetchBooking() {
-            // TODO: update this from sampleBookigns to actual listing state data
+        function fetchBooking() {
             setBookings(curr => curr.map(b => {
-                console.log("listing in fetch booking", listing);
                 if (listing.data.bookings.includes(b.code)) {
                     return {
                         ...b,
@@ -53,15 +54,15 @@ function ListingDetail({ addUserBooking }) {
                     };
                 }
                 return b;
-            }))
+            }));
         }
 
         if (listing.isLoading === false) {
             fetchBooking();
         }
-    }, [listing])
+    }, [listing]);
 
-    /** Handles clicking a day button, updating it's state to be selected */
+    /** Handles clicking a day button, updating it's status to clicked */
     function handleDayButtonClick(evt) {
         console.log(evt.target.id);
 
@@ -73,21 +74,22 @@ function ListingDetail({ addUserBooking }) {
                 };
             }
             return b;
-        }))
+        }));
     }
 
-    /** Handles clicking the book it button, add new bookings. */
+    /** Handles clicking the book it button, adds new booking. */
     async function addNewBooking(evt) {
 
         const days = bookings.filter(b => {
-            return b.status === "clicked"
+            return b.status === "clicked";
         }).map(b => {
-            return b.code
-        })
+            return b.code;
+        });
 
-        /** returns an array of days */
-        const updatedBookings = await ByboApi.createNewBooking(listingId, { user_id: id, days })
+        // returns an array of booked days
+        const updatedBookings = await ByboApi.createNewBooking(listingId, { user_id: id, days });
 
+        //takes booked days and returns a list of booking details
         const bookingObjects = updatedBookings.map(b => {
             return {
                 day: b,
@@ -97,11 +99,14 @@ function ListingDetail({ addUserBooking }) {
                 name: listing.data.name,
                 photo: listing.data.photo,
                 price: listing.data.price
-            }
-        })
+            };
+        });
 
+        //calls parent function in app to add booking to user's profile
         addUserBooking(bookingObjects);
 
+        //if booked days list includes that day of the week, updated that
+        //day's status to booked
         setBookings(curr => curr.map(b => {
             if (updatedBookings.includes(b.code)) {
                 return {
@@ -110,7 +115,7 @@ function ListingDetail({ addUserBooking }) {
                 };
             }
             return b;
-        }))
+        }));
     }
 
     if (listing.isLoading) return <Spinner />;
@@ -132,52 +137,56 @@ function ListingDetail({ addUserBooking }) {
                 </Card.Text>
                 <Card.Text>Size: {l.size}</Card.Text>
                 <Card.Text>{l.price} per hour</Card.Text>
-                <Stack direction="horizontal" gap={2} >
-                    {listing.data.host.id !== id && bookings.map(b => (
-                        <div key={b.code}>
-                            {b.status === "available" &&
+                {username &&
+                    <>
+                        <Stack direction="horizontal" gap={2} >
+                            {listing.data.host.id !== id && bookings.map(b => (
+                                <div key={b.code}>
+                                    {b.status === "available" &&
+                                        <Button
+                                            id={b.code}
+                                            variant="outline-primary"
+                                            onClick={handleDayButtonClick}
+                                        >
+                                            {b.name}
+                                        </Button>
+                                    }
+                                    {b.status === "booked" &&
+                                        <Button
+                                            id={b.code}
+                                            variant="outline-secondary"
+                                            disabled
+                                            onClick={handleDayButtonClick}
+                                        >
+                                            {b.name}
+                                        </Button>
+                                    }
+                                    {b.status === "clicked" &&
+                                        <Button
+                                            id={b.code}
+                                            variant="primary"
+                                            onClick={handleDayButtonClick}
+                                        >
+                                            {b.name}
+                                        </Button>
+                                    }
+                                </div>
+                            ))}
+                        </Stack>
+                        {listing.data.host.id !== id &&
+                            <div>
                                 <Button
-                                    id={b.code}
-                                    variant="outline-primary"
-                                    onClick={handleDayButtonClick}
-                                >
-                                    {b.name}
+                                    onClick={addNewBooking}
+                                    variant="info">
+                                    Book'em Dano!
                                 </Button>
-                            }
-                            {b.status === "booked" &&
-                                <Button
-                                    id={b.code}
-                                    variant="outline-secondary"
-                                    disabled
-                                    onClick={handleDayButtonClick}
-                                >
-                                    {b.name}
-                                </Button>
-                            }
-                            {b.status === "clicked" &&
-                                <Button
-                                    id={b.code}
-                                    variant="primary"
-                                    onClick={handleDayButtonClick}
-                                >
-                                    {b.name}
-                                </Button>
-                            }
-                        </div>
-                    ))}
-                </Stack>
-                {listing.data.host.id !== id &&
-                    <div>
-                        <Button
-                            onClick={addNewBooking}
-                            variant="info">
-                            Book'em Dano!
-                        </Button>
-                    </div>
+                            </div>
+                        }
+                    </>
                 }
             </Card.Body>
         </Card>
-    )
+    );
 }
 
 

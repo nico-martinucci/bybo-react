@@ -10,7 +10,8 @@ const inititalFormData = {
     password: "",
     firstName: "",
     lastName: "",
-    email: ""
+    email: "",
+    bio: ""
 };
 
 /**
@@ -85,6 +86,15 @@ function SignupForm({ handleRegister }) {
                 value={formData.email}
                 onChange={handleChange}
                 type="email"
+                required
+            />
+            <Form.Label>Bio</Form.Label>
+            <Form.Control
+                as = "textarea"
+                rows={3}
+                name="bio"
+                value={formData.bio}
+                onChange={handleChange}
                 required
             />
             <Button variant="primary" type="submit">
