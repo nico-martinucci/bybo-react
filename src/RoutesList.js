@@ -9,9 +9,19 @@ import userContext from "./userContext";
 import { useContext } from "react"
 
 /**
- * TODO:
+ * RoutesList: includes all Route components for the app.
+ * 
+ * Props:
+ * - handleLogin: log in a user
+ * - handleRegister: registers a new user
+ * - addUserListing: adds a new listing object to the current user's listings
+ * - addUserBooking: adds a new booking object to the current user's bookings
+ * 
+ * State: N/A
+ * 
+ * App => RoutesList
  */
-function RoutesList({ handleLogin, handleRegister, user, addUserListing, addUserBooking }) {
+function RoutesList({ handleLogin, handleRegister, addUserListing, addUserBooking }) {
 
     const { username } = useContext(userContext);
 
@@ -19,25 +29,25 @@ function RoutesList({ handleLogin, handleRegister, user, addUserListing, addUser
         <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/listings" element={
-                <Listings addUserListing={addUserListing}/>
+                <Listings addUserListing={addUserListing} />
             } />
             <Route path="/users/:userId" element={
-                <UserProfile user={user}/>
+                <UserProfile />
             } />
             <Route path="/listings/:listingId" element={
-                <ListingDetail addUserBooking={addUserBooking}/>
+                <ListingDetail addUserBooking={addUserBooking} />
             } />
             {!username &&
-            <>
-                <Route path="/login" element={
-                    <LoginForm handleLogin={handleLogin} />
-                } />
-                <Route path="/signup" element={
-                    <SignupForm handleRegister={handleRegister} />
-                } />
-            </>
+                <>
+                    <Route path="/login" element={
+                        <LoginForm handleLogin={handleLogin} />
+                    } />
+                    <Route path="/signup" element={
+                        <SignupForm handleRegister={handleRegister} />
+                    } />
+                </>
             }
-            <Route path="*" element={<Navigate to="/" />}/>
+            <Route path="*" element={<Navigate to="/" />} />
         </Routes>
     )
 }

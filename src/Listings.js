@@ -19,20 +19,15 @@ import userContext from "./userContext";
  *
  * RouteList => Listings
  */
-function Listings( { addUserListing }) {
+function Listings({ addUserListing }) {
     const [listings, setListings] = useState({
         isLoading: true,
         data: null
     });
     const [isAdding, setIsAdding] = useState(false);
+    //TODO: add search term state
 
     const { username } = useContext(userContext);
-
-
-    console.log("listings:", listings)
-
-    //TODO: add search term state
-    //TODO: add in form for new listings
 
     useEffect(function fetchAndSetListings() {
         async function fetchListings() {
@@ -53,7 +48,7 @@ function Listings( { addUserListing }) {
     /** Adds a new listing to the current state */
     async function addNewListing(data) {
         const newListing = await ByboApi.addNewListing(data);
-        console.log("newListing response from api: ", newListing)
+
         setListings(curr => ({
             isLoading: false,
             data: [{
@@ -75,9 +70,7 @@ function Listings( { addUserListing }) {
         })
     }
 
-
     if (listings.isLoading) return <Spinner />;
-
 
     return (
         <div>

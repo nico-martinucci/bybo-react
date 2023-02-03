@@ -41,8 +41,6 @@ function App() {
     const payload = jwt_decode(token);
     const { id } = payload;
 
-    console.log("payload", payload);
-
     ByboApi.token = token;
     const currentUser = await ByboApi.getUserDetail(id);
     setUser({
@@ -114,9 +112,6 @@ function App() {
   }
 
   if (user.isLoading) return <Spinner />;
-
-  console.log("value of user in App: ", user)
-  console.log("user obj passed to context: ", { username: user.data?.username, id: user.data?.id })
 
   return (
     <userContext.Provider value={{ username: user.data?.username, id: user.data?.id }}>

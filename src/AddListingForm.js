@@ -15,7 +15,18 @@ const inititalFormData = {
 }
 
 /**
- * TODO:
+ * AddListingForm: component to render a form to add a new list.
+ * 
+ * State: 
+ * - formData: current data in the form
+ * - selectedFile: currently added form file
+ * 
+ * Props:
+ * - toggleIsAdding: function to toggle parent state, whether a listing is
+ * being added or not
+ * - addNewListing: function to add new listing to parent state
+ * 
+ * Listing => AddListingForm
  */
 function AddListingForm({ toggleIsAdding, addNewListing }) {
     const [formData, setFormData] = useState(inititalFormData);
@@ -33,24 +44,17 @@ function AddListingForm({ toggleIsAdding, addNewListing }) {
     }
 
     function handleSubmit(evt) {
-        console.log("formData state at top of handleSubmit: ", formData)
         evt.preventDefault();
         toggleIsAdding();
+
         const data = new FormData();
-        // for (let input in formData) {
-        //     data.append(input, data[input]);
-        // }
-        data.append("name", formData.name);
-        data.append("description", formData.description);
-        data.append("location", formData.location);
-        data.append("size", formData.size);
-        data.append("price", formData.price);
-        data.append("hasBarbecue", formData.hasBarbecue);
-        data.append("hasPool", formData.hasPool);
-        data.append("isFenced", formData.isFenced);
+
+        for (let input in formData) {
+            data.append(input, formData[input]);
+        }
+
         data.append("photo", selectedFile)
         data.append("userId", id)
-        console.log("data instance in handleSubmit in AddListingForm: ", data);
 
         addNewListing(data);
     }

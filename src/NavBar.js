@@ -7,19 +7,25 @@ import userContext from './userContext';
 import { Link, Navigate } from 'react-router-dom';
 
 /**
- * TODO:
+ * NavBar: component to render the navbar at the top of the page.
+ * 
+ * Props:
+ * - handleLogout: App function to logout current user
+ * 
+ * State: N/A
+ * 
+ * App => NavBar
  */
 function NavBar({ handleLogout }) {
 
     const { username, id } = useContext(userContext);
-    console.log("value of user at top of NavBar: ", username);
 
     function handleLogoutClick() {
         handleLogout();
         return <Navigate to="/" />
     }
 
-    // TODO: update this to messages page once implemented
+    // TODO: add messages link once implemented
     return (
         <Navbar bg="light" expand="lg">
             <Container>

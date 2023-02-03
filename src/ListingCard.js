@@ -3,7 +3,12 @@ import { Link } from "react-router-dom"
 import Listings from "./Listings";
 
 /**
- * TODO:
+ * ListingCard: component to render a single listing card.
+ * 
+ * Props:
+ * - listing: object representing a single listing
+ * 
+ * State: N/A
  */
 function ListingCard({ listing }) {
 

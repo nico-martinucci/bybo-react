@@ -1,6 +1,11 @@
-
 /**
- * TODO:
+ * Home: simple homepage component.
+ * 
+ * Props: N/A
+ * 
+ * State: N/A
+ * 
+ * RoutesList => Home
  */
 function Home() {
 

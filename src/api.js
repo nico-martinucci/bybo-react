@@ -42,7 +42,6 @@ class ByboApi {
   //TODO: add delete booking, get to_user messages, get from_user messages,
   // send new message
 
-
   /** Adds a new listing */
 
   static async addNewListing(data) {
@@ -52,8 +51,6 @@ class ByboApi {
       "post",
       { "Content-Type": "multipart/form-data" }
     );
-
-    console.log("response from api: ", res)
 
     return res.listing;
   }
@@ -107,10 +104,6 @@ class ByboApi {
 
 
 }
-// async function test() {
-//   const resp = await JoblyApi.registerUser({username: "sunce", firstName: "Sunce", password: "password", lastName: "Juravic", email: "sunce@cat.com"});
-//   console.log("resp=", resp);
-// }
-// test();
+
 
 export default ByboApi;

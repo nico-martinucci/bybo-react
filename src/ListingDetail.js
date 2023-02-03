@@ -5,7 +5,17 @@ import { Spinner, Card, Button, Stack } from "react-bootstrap";
 import userContext from "./userContext";
 
 /**
- * TODO:
+ * ListingDetail: component to render a full-page listing detail, with all
+ * information and ability to book the listing.
+ * 
+ * Props:
+ * - addUserBooking: App function to add a new booking to the current user
+ * 
+ * State:
+ * - listing: the listing being rendered
+ * - bookings: current day-by-day availability
+ * 
+ * RoutesList => ListingDetail
  */
 function ListingDetail({ addUserBooking }) {
     const [listing, setListing] = useState({
@@ -64,8 +74,6 @@ function ListingDetail({ addUserBooking }) {
 
     /** Handles clicking a day button, updating it's status to clicked */
     function handleDayButtonClick(evt) {
-        console.log(evt.target.id);
-
         setBookings(curr => curr.map(b => {
             if (b.code === +evt.target.id) {
                 return {

@@ -8,12 +8,14 @@ import { useParams } from "react-router-dom";
 /**
  * User Profile Page
  *
- * Props:
- * -user
+ * Props: N/A
+ * 
+ * State:
+ * - viewUser: current user being viewed
  *
  * RoutesList => UserProfile
  */
-function UserProfile({ user }) {
+function UserProfile() {
 
     const [viewUser, setViewUser] = useState({
         data: null,
@@ -34,8 +36,6 @@ function UserProfile({ user }) {
         fetchViewUser();
     }, [])
 
-    console.log("viewUser", viewUser);
-
     if (viewUser.isLoading) return <Spinner />;
 
     let uniqueBookings = []
@@ -51,8 +51,6 @@ function UserProfile({ user }) {
             });
         }
     }
-
-    console.log("unique bookings: ", uniqueBookings);
 
     return (
         <Card>
