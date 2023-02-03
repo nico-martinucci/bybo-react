@@ -5,7 +5,12 @@
 function Home() {
 
     return (
-        <h2>Home</h2>
+        <div className="bg">
+            <div className="hero">
+                <h1>BYBO</h1>
+                <h3>Backyards By Owner</h3>
+            </div>
+        </div>
     )
 }
 

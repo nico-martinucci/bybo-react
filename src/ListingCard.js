@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap"
+import { Card, Stack } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import Listings from "./Listings";
 
@@ -22,23 +22,29 @@ function ListingCard({ listing }) {
     return (
         <>
             <Card>
-                <Card.Img width="150px" variant="left" src={listing.photo} />
                 <Card.Body>
-                    <Card.Title>
-                        <Link style={linkStyle} to={`/listings/${listing.id}`}>{listing.name}</Link>
-                    </Card.Title>
-                    <Card.Text>
-                        {listing.price}
-                        {listing.location}
-                    </Card.Text>
-                    <Card.Text>
-                        {listing.description}
-                    </Card.Text>
-                    {listing.days &&
-                        <Card.Text>
-                            Booked: {listing.days.map(d => <span key={d}>{dayLookup[d]} </span>)}
-                        </Card.Text>
-                    }
+                    <Stack direction="horizontal" gap={3}>
+                        <div>
+                            <Card.Img width="400px" variant="left" src={listing.photo} />
+                        </div>
+                        <div>
+                            <Card.Title>
+                                <Link style={linkStyle} to={`/listings/${listing.id}`}>{listing.name}</Link>
+                            </Card.Title>
+                            <Card.Text>
+                                {listing.price}
+                                {listing.location}
+                            </Card.Text>
+                            <Card.Text>
+                                {listing.description}
+                            </Card.Text>
+                            {listing.days &&
+                                <Card.Text>
+                                    Booked: {listing.days.map(d => <span key={d}>{dayLookup[d]} </span>)}
+                                </Card.Text>
+                            }
+                        </div>
+                    </Stack>
                 </Card.Body>
             </Card>
         </>
