@@ -4,7 +4,7 @@ import NavBar from './NavBar';
 import userContext from "./userContext";
 import { BrowserRouter, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import ByboApi from './api';
 import jwt_decode from "jwt-decode";
 

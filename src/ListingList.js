@@ -1,4 +1,4 @@
-import { Stack } from "react-bootstrap";
+import { Container, Stack } from "react-bootstrap";
 import ListingCard from "./ListingCard"
 
 /**
@@ -11,14 +11,16 @@ import ListingCard from "./ListingCard"
  */
 function ListingList({ listings }) {
   return (
-    <Stack gap={3}>
-      {listings.map(l => (
-        <ListingCard
-          key={l.id}
-          listing={l}
-        />
-      ))}
-    </Stack>
+    <Container>
+      <Stack gap={3}>
+        {listings.map(l => (
+          <ListingCard
+            key={l.id}
+            listing={l}
+          />
+        ))}
+      </Stack>
+    </Container>
   );
 }
 

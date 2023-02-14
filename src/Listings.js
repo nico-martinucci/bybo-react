@@ -3,7 +3,7 @@ import ListingSearch from "./ListingSearch"
 import ListingList from "./ListingList"
 import { useState, useEffect, useContext } from "react";
 import ByboApi from "./api";
-import { Spinner, Button } from "react-bootstrap";
+import { Spinner, Button, Container } from "react-bootstrap";
 import userContext from "./userContext";
 
 
@@ -73,7 +73,7 @@ function Listings({ addUserListing }) {
     if (listings.isLoading) return <Spinner />;
 
     return (
-        <div>
+        <Container>
             {!isAdding && <div>
                 {username &&
                     <>
@@ -89,7 +89,7 @@ function Listings({ addUserListing }) {
                 toggleIsAdding={toggleIsAdding}
                 addNewListing={addNewListing}
             />}
-        </div>
+        </Container>
     )
 }
 
