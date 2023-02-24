@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import ByboApi from "./api";
 import { Spinner, Button, Container } from "react-bootstrap";
 import userContext from "./userContext";
+import LoadingPage from "./LoadingPage";
 
 
 /**
@@ -25,24 +26,28 @@ function Listings({ addUserListing }) {
         data: null
     });
     const [isAdding, setIsAdding] = useState(false);
-    //TODO: add search term state
+    const [searchTerm, setSearchTerm] = useState("");
 
     const { username } = useContext(userContext);
 
     useEffect(function fetchAndSetListings() {
         async function fetchListings() {
-            const resp = await ByboApi.getAllListings();
+            const resp = await ByboApi.getAllListings(searchTerm);
             setListings(({
                 isLoading: false,
                 data: resp
             }))
         }
         fetchListings();
-    }, []);
+    }, [searchTerm]);
 
     /** Sets Listings "isAdding" state to false. */
     function toggleIsAdding() {
         setIsAdding(curr => !curr);
+    }
+
+    function changeSearchTerm(term) {
+        setSearchTerm(term);
     }
 
     /** Adds a new listing to the current state */
@@ -70,8 +75,9 @@ function Listings({ addUserListing }) {
         })
     }
 
-    if (listings.isLoading) return <Spinner />;
+    if (listings.isLoading) return <LoadingPage />;
 
+    // TODO: move add new listing button to other side of page?
     return (
         <Container>
             {!isAdding && <div>
@@ -82,7 +88,7 @@ function Listings({ addUserListing }) {
                         </Button>
                     </>
                 }
-                <ListingSearch />
+                <ListingSearch changeSearchTerm={changeSearchTerm}/>
                 <ListingList listings={listings.data} />
             </div>}
             {isAdding && <AddListingForm

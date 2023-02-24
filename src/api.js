@@ -64,9 +64,8 @@ class ByboApi {
   }
 
   /** Get all listings */
-  //TODO: update to allow filtering
-  static async getAllListings(term) {
-    const res = await this.request("api/listings");
+  static async getAllListings(term="") {
+    const res = await this.request(`api/listings?name=${term}`);
     return res.listings;
   }
 

@@ -21,7 +21,7 @@ const inititalFormData = {
  * RouteList => LoginForm
  */
 function LoginForm({ handleLogin }) {
-    const[formData, setFormData] = useState(inititalFormData);
+    const [formData, setFormData] = useState(inititalFormData);
 
     const navigate = useNavigate();
 

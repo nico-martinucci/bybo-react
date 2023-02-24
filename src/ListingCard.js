@@ -1,6 +1,7 @@
 import { Card, Stack } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import Listings from "./Listings";
+import currency from "currency.js";
 
 /**
  * ListingCard: component to render a single listing card.
@@ -36,18 +37,15 @@ function ListingCard({ listing }) {
                             <Card.Title>
                                 <Link style={linkStyle} to={`/listings/${listing.id}`}>{listing.name}</Link>
                             </Card.Title>
-                            <Card.Text>
-                                {listing.price}
+                            <div>
+                                {currency(listing.price, { seperator: "," }).format()} per Day
+                            </div>
+                            <div>
                                 {listing.location}
-                            </Card.Text>
-                            <Card.Text>
+                            </div>
+                            <div className="mt-2">
                                 {listing.description}
-                            </Card.Text>
-                            {listing.days &&
-                                <Card.Text>
-                                    Booked: {listing.days.map(d => <span key={d}>{dayLookup[d]} </span>)}
-                                </Card.Text>
-                            }
+                            </div>
                         </div>
                     </Stack>
                 </Card.Body>

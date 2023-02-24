@@ -4,6 +4,7 @@ import ByboApi from "./api";
 import { Card, Container, Spinner } from "react-bootstrap"
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
+import LoadingPage from "./LoadingPage";
 
 /**
  * User Profile Page
@@ -36,7 +37,7 @@ function UserProfile() {
         fetchViewUser();
     }, [])
 
-    if (viewUser.isLoading) return <Spinner />;
+    if (viewUser.isLoading) return <LoadingPage />;
 
     let uniqueBookings = []
 

@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import ByboApi from "./api";
 import { Spinner, Card, Button, Stack, Container } from "react-bootstrap";
 import userContext from "./userContext";
+import LoadingPage from "./LoadingPage";
 
 /**
  * ListingDetail: component to render a full-page listing detail, with all
@@ -126,75 +127,71 @@ function ListingDetail({ addUserBooking }) {
         }));
     }
 
-    if (listing.isLoading) return <Spinner />;
+    if (listing.isLoading) return <LoadingPage />;
 
     const l = listing.data;
 
     return (
         <Container>
-            <Card>
-                <Card.Body>
-                    <Card.Title>{l.name}</Card.Title>
-                    <Card.Text>hosted by <Link to={`/users/${l.host.id}`}>
-                        {l.host.username}</Link>  | {l.location}</Card.Text>
-                    <Card.Img variant="left" width="600px" src={l.photo} />
-                    <Card.Text>{l.description}</Card.Text>
-                    <Card.Text>
-                        {l.has_pool && "Pool! "}
-                        {l.has_barbecue && "Barbecue! "}
-                        {l.is_fenced && "Fenced!"}
-                    </Card.Text>
-                    <Card.Text>Size: {l.size}</Card.Text>
-                    <Card.Text>{l.price} per hour</Card.Text>
-                    {username &&
-                        <>
-                            <Stack direction="horizontal" gap={2} >
-                                {listing.data.host.id !== id && bookings.map(b => (
-                                    <div key={b.code}>
-                                        {b.status === "available" &&
-                                            <Button
-                                                id={b.code}
-                                                variant="outline-primary"
-                                                onClick={handleDayButtonClick}
-                                            >
-                                                {b.name}
-                                            </Button>
-                                        }
-                                        {b.status === "booked" &&
-                                            <Button
-                                                id={b.code}
-                                                variant="outline-secondary"
-                                                disabled
-                                                onClick={handleDayButtonClick}
-                                            >
-                                                {b.name}
-                                            </Button>
-                                        }
-                                        {b.status === "clicked" &&
-                                            <Button
-                                                id={b.code}
-                                                variant="primary"
-                                                onClick={handleDayButtonClick}
-                                            >
-                                                {b.name}
-                                            </Button>
-                                        }
-                                    </div>
-                                ))}
-                            </Stack>
-                            {listing.data.host.id !== id &&
-                                <div>
+            <h3>{l.name}</h3>
+            <p>hosted by <Link to={`/users/${l.host.id}`}>
+                {l.host.username}</Link>  | {l.location}</p>
+            <Card.Img className="mb-2" variant="left" width="600px" src={l.photo}/>
+            <p style={{fontSize: "1.2em"}}>{l.description}</p>
+            <p>
+                {l.has_pool && "Pool! "}
+                {l.has_barbecue && "Barbecue! "}
+                {l.is_fenced && "Fenced!"}
+            </p>
+            <p>Size: {l.size}</p>
+            <p>{l.price} per hour</p>
+            {username &&
+                <>
+                    <Stack direction="horizontal" gap={2} >
+                        {listing.data.host.id !== id && bookings.map(b => (
+                            <div key={b.code}>
+                                {b.status === "available" &&
                                     <Button
-                                        onClick={addNewBooking}
-                                        variant="info">
-                                        Book'em Dano!
+                                        id={b.code}
+                                        variant="outline-primary"
+                                        onClick={handleDayButtonClick}
+                                    >
+                                        {b.name}
                                     </Button>
-                                </div>
-                            }
-                        </>
+                                }
+                                {b.status === "booked" &&
+                                    <Button
+                                        id={b.code}
+                                        variant="outline-secondary"
+                                        disabled
+                                        onClick={handleDayButtonClick}
+                                    >
+                                        {b.name}
+                                    </Button>
+                                }
+                                {b.status === "clicked" &&
+                                    <Button
+                                        id={b.code}
+                                        variant="primary"
+                                        onClick={handleDayButtonClick}
+                                    >
+                                        {b.name}
+                                    </Button>
+                                }
+                            </div>
+                        ))}
+                    </Stack>
+                    {listing.data.host.id !== id &&
+                        <div className="mt-2">
+                            <Button
+                                onClick={addNewBooking}
+                                variant="info">
+                                Book It!
+                            </Button>
+                        </div>
                     }
-                </Card.Body>
-            </Card>
+                </>
+            }
         </Container>
     );
 }

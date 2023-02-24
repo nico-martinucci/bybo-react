@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { Container, Spinner } from 'react-bootstrap';
 import ByboApi from './api';
 import jwt_decode from "jwt-decode";
+import LoadingPage from "./LoadingPage";
 
 /** Renders application */
 
@@ -111,7 +112,7 @@ function App() {
     }));
   }
 
-  if (user.isLoading) return <Spinner />;
+  if (user.isLoading) return <LoadingPage isHome={true}/>;
 
   return (
     <userContext.Provider value={{ username: user.data?.username, id: user.data?.id }}>
