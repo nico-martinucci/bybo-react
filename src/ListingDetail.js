@@ -4,6 +4,7 @@ import ByboApi from "./api";
 import { Spinner, Card, Button, Stack, Container } from "react-bootstrap";
 import userContext from "./userContext";
 import LoadingPage from "./LoadingPage";
+import currency from "currency.js";
 
 /**
  * ListingDetail: component to render a full-page listing detail, with all
@@ -144,7 +145,7 @@ function ListingDetail({ addUserBooking }) {
                 {l.is_fenced && "Fenced!"}
             </p>
             <p>Size: {l.size}</p>
-            <p>{l.price} per hour</p>
+            <p>{currency(l.price, { seperator: "," }).format()} per Day</p>
             {username &&
                 <>
                     <Stack direction="horizontal" gap={2} >

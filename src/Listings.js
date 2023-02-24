@@ -3,7 +3,7 @@ import ListingSearch from "./ListingSearch"
 import ListingList from "./ListingList"
 import { useState, useEffect, useContext } from "react";
 import ByboApi from "./api";
-import { Spinner, Button, Container } from "react-bootstrap";
+import { Spinner, Button, Container, Row, Col } from "react-bootstrap";
 import userContext from "./userContext";
 import LoadingPage from "./LoadingPage";
 
@@ -77,24 +77,31 @@ function Listings({ addUserListing }) {
 
     if (listings.isLoading) return <LoadingPage />;
 
-    // TODO: move add new listing button to other side of page?
     return (
         <Container>
-            {!isAdding && <div>
-                {username &&
-                    <>
-                        <Button onClick={toggleIsAdding} variant="primary" type="submit">
-                            Add new listing
-                        </Button>
-                    </>
-                }
-                <ListingSearch changeSearchTerm={changeSearchTerm}/>
-                <ListingList listings={listings.data} />
-            </div>}
+
+            {!isAdding &&
+                <div>
+                    <Row>
+                        <Col xs={{ span: 2, offset: 10 }} style={{display: "flex", justifyContent: "flex-end"}}>
+                            {username &&
+                                <>
+                                    <Button className="m-2" onClick={toggleIsAdding} variant="primary" type="submit">
+                                        Add new listing
+                                    </Button>
+                                </>
+                            }
+                        </Col>
+                    </Row>
+                    <ListingSearch changeSearchTerm={changeSearchTerm} />
+                    <ListingList listings={listings.data} />
+                </div>}
+
             {isAdding && <AddListingForm
                 toggleIsAdding={toggleIsAdding}
                 addNewListing={addNewListing}
             />}
+
         </Container>
     )
 }
