@@ -129,7 +129,9 @@ function AddListingForm({ toggleIsAdding, addNewListing }) {
             <Form.Control
                 name="photo"
                 type="file"
-                onChange={handleFileSelect} />
+                onChange={handleFileSelect} 
+                required
+            />
             <Button variant="primary" type="submit">
                 Submit
             </Button>
