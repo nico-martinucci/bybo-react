@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-
+import { Col, Container, Row } from "react-bootstrap";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -30,8 +30,8 @@ function LoginForm({ handleLogin }) {
     function handleChange(evt) {
         const { name, value } = evt.target;
         setFormData(fd => ({
-        ...fd,
-        [name]: value
+            ...fd,
+            [name]: value
         }));
     }
 
@@ -46,26 +46,37 @@ function LoginForm({ handleLogin }) {
     }
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Form.Label>Username</Form.Label>
-            <Form.Control
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-            />
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                type="password"
-                required
-            />
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
-        </Form>
+        <Container>
+            <Row className="mt-4">
+                <Col xs={12} md={6}>
+                    <h3>Log In</h3>
+                    <Form onSubmit={handleSubmit}>
+                        <div className="mt-3">
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="mt-3">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                type="password"
+                                required
+                            />
+                        </div>
+                        <Button className="mt-3" variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Form>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 

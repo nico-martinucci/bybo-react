@@ -1,7 +1,7 @@
 import ListingList from "./ListingList"
 import userContext from "./userContext";
 import ByboApi from "./api";
-import { Card, Container, Spinner } from "react-bootstrap"
+import { Container } from "react-bootstrap"
 import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import LoadingPage from "./LoadingPage";
@@ -55,17 +55,17 @@ function UserProfile() {
 
     return (
         <Container>
-            <Card>
-                <Card.Title>{`${viewUser.data.username}'s Profile`}</Card.Title>
-                <Card.Text>{viewUser.data.first_name} {viewUser.data.last_name}</Card.Text>
-                <Card.Text>{viewUser.data.bio} </Card.Text>
+            <h3>{`${viewUser.data.username}'s Profile`}</h3>
+            <h5>{viewUser.data.first_name} {viewUser.data.last_name}</h5>
+            <p>{viewUser.data.bio}</p>
+            <div className="mt-4">
                 <h3>{`${viewUser.data.username}'s Listings`}</h3>
                 <ListingList listings={viewUser.data.listings} />
-                {+userId === id && <>
-                    <h3>{`${viewUser.data.username}'s Bookings`}</h3>
-                    <ListingList listings={uniqueBookings} />
-                </>}
-            </Card>
+            </div>
+            {+userId === id && <div className="mt-4">
+                <h3>{`${viewUser.data.username}'s Bookings`}</h3>
+                <ListingList listings={uniqueBookings} />
+            </div>}
         </Container>
     )
 }

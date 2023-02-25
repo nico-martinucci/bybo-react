@@ -48,8 +48,8 @@ function NavBar({ handleLogout }) {
 
                         {!username &&
                             <>
-                                <Nav.Link as={Link} to="/login">Login</Nav.Link>
-                                <Nav.Link as={Link} to="/signup">Signup</Nav.Link>
+                                <Nav.Link as={Link} to="/login">Log In</Nav.Link>
+                                <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
                             </>}
 
                     </Nav>
